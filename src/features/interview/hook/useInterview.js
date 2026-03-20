@@ -9,6 +9,7 @@ export const useInterview = () => {
     const context = useContext(InterviewContext)
     const { interviewId } = useParams()
 
+console.log("interviewId from params:", interviewId, window.location.href)
     if (!context) {
         throw new Error("useInterview must be used within an InterviewProvider")
     }
@@ -30,19 +31,23 @@ export const useInterview = () => {
         return response.interviewReport
     }
 
-    const getReportById = async (interviewId) => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await getInterviewReportById(interviewId)
-            setReport(response.interviewReport)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-        return response.interviewReport
+// in useInterview.js inside getReportById
+const getReportById = async (interviewId) => {
+    console.log("1. getReportById called with:", interviewId)
+    setLoading(true)
+    let response = null
+    try {
+        response = await getInterviewReportById(interviewId)
+        console.log("2. response:", response)
+        setReport(response.interviewReport)
+        console.log("3. report set:", response.interviewReport)
+    } catch (error) {
+        console.log("4. error:", error)
+    } finally {
+        setLoading(false)
+        console.log("5. loading set to false")
     }
+}
 
     const getReports = async () => {
         setLoading(true)
