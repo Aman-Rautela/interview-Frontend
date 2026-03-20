@@ -3,7 +3,7 @@ import axios from "axios";
 //to reduce the repetativeness of the code: saving the instance of axios into api
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL:  import.meta.env.VITE_API_URL || "http://localhost:3000",
     withCredentials: true
 })
 
