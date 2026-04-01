@@ -1,18 +1,154 @@
-.button{
-    border: none;
-    outline: none;
-    padding-inline: 1.5rem;
-    padding-block: 0.75rem;
-    border-radius: 1rem;
-    cursor: pointer;
+// ── Button System ─────────────────────────────────────────────────────────────
+// Place at: src/styles/button.scss
 
-    transition: all 0.3s ease-in-out;
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border: none;
+  outline: none;
+  border-radius: var(--r-md);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    transform    var(--dur-sm) var(--ease),
+    box-shadow   var(--dur-sm) var(--ease),
+    opacity      var(--dur-sm) var(--ease),
+    background   var(--dur-sm) var(--ease),
+    border-color var(--dur-sm) var(--ease),
+    color        var(--dur-sm) var(--ease);
 
-    &.primary-button{
-        background-color: #e1034d;
-        color: white;
+  &:active  { transform: scale(0.965); }
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ── Primary (gold fill) ────────────────────────────────────────────────────
+  &.primary {
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+    color: #0c0a06;
+    font-weight: 600;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, var(--shadow-sm);
+    overflow: hidden;
+
+    // shimmer sweep
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255,255,255,0.22) 50%,
+        transparent 70%
+      );
+      background-size: 200% 100%;
+      background-position: 200% 0;
+      transition: background-position 0.55s var(--ease);
     }
-    &:active{
-        transform: scale(0.7);
+
+    &:hover {
+      box-shadow: var(--shadow-gold), 0 1px 0 rgba(255,255,255,0.2) inset;
+      &::after { background-position: -100% 0; }
     }
+  }
+
+  // ── Ghost (gold border) ────────────────────────────────────────────────────
+  &.ghost {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--b-gold);
+
+    &:hover {
+      background: var(--gold-dim);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-gold);
+    }
+  }
+
+  // ── Subtle (surface fill) ──────────────────────────────────────────────────
+  &.subtle {
+    background: var(--s4);
+    color: var(--t2);
+    border: 1px solid var(--b2);
+
+    &:hover {
+      background: var(--s5);
+      color: var(--t1);
+      border-color: var(--b3);
+    }
+  }
+
+  // ── Danger ────────────────────────────────────────────────────────────────
+  &.danger {
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.15);
+      border-color: var(--red);
+    }
+  }
+
+  // ── Icon-only ─────────────────────────────────────────────────────────────
+  &.icon-btn {
+    padding: 0.55rem;
+    aspect-ratio: 1;
+    background: var(--s3);
+    border: 1px solid var(--b1);
+    color: var(--t3);
+    border-radius: var(--r-md);
+
+    &:hover {
+      background: var(--s4);
+      color: var(--t1);
+      border-color: var(--b2);
+    }
+  }
+
+  // ── Size modifiers ────────────────────────────────────────────────────────
+  &.sm {
+    padding: 0.45rem 1rem;
+    font-size: 0.775rem;
+    border-radius: var(--r-sm);
+  }
+
+  &.lg {
+    padding: 0.85rem 1.85rem;
+    font-size: 0.95rem;
+    border-radius: var(--r-lg);
+  }
+
+  // ── Loading state ─────────────────────────────────────────────────────────
+  &.loading {
+    pointer-events: none;
+    color: transparent !important;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: _btn-spin 0.55s linear infinite;
+    }
+  }
+}
+
+@keyframes _btn-spin {
+  to { transform: rotate(360deg); }
 }
